@@ -1,5 +1,6 @@
 package com.vaultinum.techsharing.tdd.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -12,6 +13,10 @@ public class UserService {
 
     public Optional<User> getById(String id) {
         return Optional.ofNullable(userRepository.getById(id));
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 }
