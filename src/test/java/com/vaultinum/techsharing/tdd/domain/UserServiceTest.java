@@ -11,6 +11,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -67,6 +68,14 @@ class UserServiceTest {
         List<User> actualUsers = userService.findAll(orderBy, direction);
 
         assertThat(actualUsers, is(equalTo(expectedUsers)));
+    }
+
+    @Test
+    public void shouldThrowIllegalArgumentException_whenOrderByValueIsIncorrect() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.findAll("invalid-order-by", Sort.Direction.ASC)
+        );
     }
 
 }
