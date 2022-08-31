@@ -15,8 +15,8 @@ public class UserService {
         return Optional.ofNullable(userRepository.getById(id));
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll(String orderBy, Sort.Direction direction) {
+        return userRepository.findAll(orderBy, direction);
     }
 
 }
