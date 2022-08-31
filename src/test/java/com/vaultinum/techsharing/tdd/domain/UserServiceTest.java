@@ -2,6 +2,8 @@ package com.vaultinum.techsharing.tdd.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,8 +47,14 @@ class UserServiceTest {
         assertThat(actualUser.isEmpty(), is(true));
     }
 
-    @Test
-    public void shouldReturnAllUsers() {
+    @ParameterizedTest(name = "Order by {0}, direction {1}")
+    @CsvSource(delimiterString = "|", textBlock = """
+            id       | ASC
+            id       | DESC
+            lastName | ASC
+            lastName | DESC
+            """)
+    public void shouldReturnAllUsers(String orderBy, Sort.Direction direction) {
         List<User> expectedUsers = List.of(
                 new User("ad358f5c-c978-49f2-9276-10e7f14bb06b", "James", "HETFIELD"),
                 new User("93778b59-96af-422d-8a48-71b0d4af0c23", "Lars", "ULRICH"),
@@ -54,9 +62,9 @@ class UserServiceTest {
                 new User("d10100aa-4eb0-4695-b8a1-ee21a37d5e82", "Robert", "TRUJILLO")
         );
 
-        when(userRepository.findAll()).thenReturn(expectedUsers);
+        when(userRepository.findAll(orderBy, direction)).thenReturn(expectedUsers);
 
-        List<User> actualUsers = userService.findAll();
+        List<User> actualUsers = userService.findAll(orderBy, direction);
 
         assertThat(actualUsers, is(equalTo(expectedUsers)));
     }
