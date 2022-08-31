@@ -11,7 +11,7 @@ public class UserService {
     }
 
     public Optional<User> getById(String id) {
-        return Optional.of(userRepository.getById(id));
+        return Optional.ofNullable(userRepository.getById(id));
     }
 
 }
