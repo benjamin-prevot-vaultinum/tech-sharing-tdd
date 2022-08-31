@@ -24,4 +24,13 @@ class UserServiceTest {
         assertThat(actualUser.get(), is(equalTo(expectedUser)));
     }
 
+    @Test
+    public void shouldReturnEmptyOptional_whenUserDoesNotExist() {
+        UserRepository userRepository = mock(UserRepository.class);
+
+        Optional<User> actualUser = new UserService(userRepository).getById("id-for-absent-user");
+
+        assertThat(actualUser.isEmpty(), is(true));
+    }
+
 }
